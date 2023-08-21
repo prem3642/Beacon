@@ -1,0 +1,71 @@
+{% extends "mail_templated/base.tpl" %}
+{% autoescape off %}
+{% load raven %}
+{% load static i18n %}
+
+{% block html %}
+  <!DOCTYPE html>
+  <html>
+  {% get_current_language as LANGUAGE_CODE %}
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="{{ site.scheme }}://{{ site.domain }}{% static 'images/favicon.png' %}">
+    <title>{% block title %}Carelon Wellbeing{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="version" content="{{ site_info.RELEASE_VERSION }}">
+    <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    {% if site_info.IS_RAVEN_INSTALLED %}
+      <script>Raven.config('{% sentry_public_dsn %}').install()</script>
+    {% endif %}
+
+    {% block css %}
+    {% endblock css %}
+    {% block head_extras %}{% endblock %}
+
+    <style>
+      table {
+        font-family: proxima-nova,sans-serif;
+        border-collapse: separate;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+        width: 100%;
+      }
+
+      table td {
+        vertical-align: top;
+      }
+    </style>
+  </head>
+
+  <body style="background: #f4f4f4 50% no-repeat;" class="{% block body_classes %}{% endblock body_classes %} ">
+  <table style="background: #FFFFFF 50% no-repeat; max-width: 500px; margin: 0 auto; width: 90%; margin-top: 50px; border-top: 5px solid #5009B5;">
+    <tr>
+      <td style="padding: 20px 30px;">
+        {% block logo %}
+        <img width="50px" height="50px" class="logo-img" src="{{ site.scheme }}://{{ site.domain }}{% static 'images/logo.png' %}" alt="carelon wellbeing logo">
+        {% endblock %}
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px 30px; padding-top: 0;">
+        <p style="font-size: 16px; line-height: 23px; margin-bottom: 20px;">
+          {% block content %}
+            <p>Coming soon!</p>
+          {% endblock content %}
+        </p>
+        <p style="font-size: 16px; line-height: 18px; margin-bottom: 20px;">
+          {% block button %}{% endblock %}
+        </p>
+
+        {% block valediction %}
+          <p style="margin-top: 50px; font-size: 13px; color: #002639;">Carelon Wellbeing Team</p>
+        {% endblock valediction %}
+      </td>
+    </tr>
+  </table>
+  </body>
+  </html>
+{% endblock %}
+{% endautoescape %}

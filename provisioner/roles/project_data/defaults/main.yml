@@ -1,0 +1,14 @@
+---
+pg_hstore: False
+pg_db: "{{ project_name }}-{{ deploy_environment }}"
+pg_user: dev
+pg_password: password
+django_requirements_file: requirements.txt
+
+# asgi related variables
+asgi_user: www-data
+asgi_group: www-data
+asgi_workers: 2
+asgi_socket: /tmp/django-{{ domain_name }}-asgi.sock
+
+project_log_dir: /var/log/django/{{ deploy_environment }}/{{ project_name}}

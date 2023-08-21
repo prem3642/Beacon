@@ -1,0 +1,63 @@
+---
+- name: copy celery.log logrotate
+  template: src=celery.log.j2
+    dest=/etc/logrotate.d/celery-{{ project_namespace }}
+    mode=644
+  tags: ["configure", "celery"]
+
+- name: make sure log directory exists
+  file: path={{ celery_log_dir }} state=directory owner={{celery_user}} group={{celery_group}} mode=751 recurse=yes
+  tags: ["configure", "celery"]
+
+- name: manually create the initial virtualenv
+  command: virtualenv {{ venv_path }} -p python3.9 creates={{ venv_path }}
+  become: false
+  tags: ["celery"]
+
+- name: ensure celery package is installed
+  pip: name=celery state=present executable={{ venv_path }}/bin/pip
+  become: false
+  tags: ["celery"]
+
+- name: copy celery service
+  template: src=celery.service.j2 dest=/etc/systemd/system/celery-{{ project_namespace }}.service
+  tags: ["celery"]
+
+- name: read celery flower configs from .env
+  shell: "source {{ project_path }}/.env; echo ${{ item }}"
+  register: output
+  with_items: "{{ celeryflower_env_configs }}"
+  args:
+    executable: /bin/bash
+  tags: ["celery"]
+
+- name: storing celery flower configs in ansible
+  set_fact:
+    "{{ item.0 }}": "{{ item.1.stdout }}"
+  when: item.0 is defined
+  with_together:
+    - "{{ celeryflower_env_configs }}"
+    - "{{ output.results }}"
+  no_log: true
+  tags: ["celery"]
+
+- name: copy celery flower service
+  template: src=celeryflower.service.j2 dest=/etc/systemd/system/celeryflower-{{ project_namespace }}.service
+  notify: restart celeryflower  # restart celeryflower if service file is changed
+  tags: ["celery"]
+
+- name: copy celery beat service
+  template: src=celerybeat.service.j2 dest=/etc/systemd/system/celerybeat-{{ project_namespace }}.service
+  tags: ["celery"]
+
+- name: start celery service
+  service: name=celery-{{ project_namespace }} state=started
+  tags: ["celery"]
+
+- name: start celerybeat service
+  service: name=celerybeat-{{ project_namespace }} state=started
+  tags: ["celery"]
+
+- name: start celery flower service
+  service: name=celeryflower-{{ project_namespace }} state=started
+  tags: ["celery"]

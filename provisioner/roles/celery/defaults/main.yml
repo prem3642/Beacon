@@ -1,0 +1,15 @@
+---
+celery_user: www-data
+celery_group: www-data
+celery_log_dir: /var/log/celery/{{ project_namespace }}
+celery_log_file: "{{ celery_log_dir }}/celery.log"
+celerybeat_log_file: "{{ celery_log_dir }}/celerybeat.log"
+celeryflower_log_file: "{{ celery_log_dir }}/celeryflower.log"
+celery_log_level: "INFO"
+celery_runtime_dir: celery
+celerybeat_schedule_dir: /var/run/{{ celery_runtime_dir }}
+celerybeat_schedule_file: "{{ celerybeat_schedule_dir }}/schedule-{{ project_namespace }}.db"
+celery_pid_file: /tmp/celery-{{ project_namespace }}.pid
+celeryflower_socket_file: /tmp/celeryflower-{{ project_namespace }}.sock
+celeryflower_db_file: "{{ project_path }}/flower"
+celerybeat_pid_file: /tmp/celerybeat-{{ project_namespace }}.pid

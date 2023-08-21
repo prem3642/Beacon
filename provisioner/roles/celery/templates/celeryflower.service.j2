@@ -1,0 +1,23 @@
+[Unit]
+Description=Celery Flower {{ project_namespace }} Service
+After=network.target
+
+[Service]
+Environment=LC_ALL=en_US.utf-8
+Environment=LANG=en_US.utf-8
+User={{ celery_user }}
+Group={{ celery_group }}
+Type=simple
+Restart=always
+WorkingDirectory={{ project_path }}
+ExecStart={{ venv_path }}/bin/celery -A {{ project_name }} -b "{{ CELERY_REDIS_URL }}" \
+    flower --basic_auth="{{ CELERY_FLOWER_USERNAME }}:{{ CELERY_FLOWER_PASSWORD }}" \
+    --unix-socket={{ celeryflower_socket_file }} \
+    --log_file_prefix={{ celeryflower_log_file }} \
+    --db={{ celeryflower_db_file }} \
+    --url_prefix=flower \
+    --persistent=True
+
+[Install]
+WantedBy=multi-user.target
+Alias=celeryflower-{{ project_namespace }}.service

@@ -1,0 +1,10 @@
+---
+project_name: beacon
+project_repo_url: git@github.com:BeaconHealth/beacon-backend.git
+project_repo_remote: origin/prod
+pg_gis: False
+sass_with_django_compressor: False
+celeryflower_env_configs:
+  - CELERY_REDIS_URL
+  - CELERY_FLOWER_USERNAME
+  - CELERY_FLOWER_PASSWORD

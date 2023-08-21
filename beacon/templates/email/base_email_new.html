@@ -1,0 +1,108 @@
+{% extends "mail_templated/base.tpl" %}
+{% autoescape off %}
+{% load raven %}
+{% load static i18n %}
+
+{# ======== Subject of email #}
+{% block subject %}{% block subject_content %}{% endblock subject_content %}{% endblock subject %}
+
+{# ======== Body of email #}
+{% block body %}{% block body_content %}{% endblock body_content %}{% endblock body %}
+
+{% block html %}
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html>
+  {% get_current_language as LANGUAGE_CODE %}
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="{{ site.scheme }}://{{ site.domain }}{% static 'images/favicon.png' %}">
+    <title>{% block title %}Carelon Wellbeing{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="version" content="{{ site_info.RELEASE_VERSION }}">
+    <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    {% if site_info.IS_RAVEN_INSTALLED %}
+      <script>Raven.config('{% sentry_public_dsn %}').install()</script>
+    {% endif %}
+
+    {% block css %}
+    {% endblock css %}
+    {% block head_extras %}{% endblock %}
+
+    <style type="text/css">
+      h2 {
+        text-align: left;
+        font-size: 36px;
+        line-height: 40px;
+        color: #003F63;
+        font-weight: 400;
+        padding-bottom: 15px;
+      }
+
+      p {
+        text-align: left;
+        color: #4C5C66;
+        font-size: 15px;
+        line-height: 25px;
+      }
+    </style>
+  </head>
+
+
+  <body style="background-color: #FFFFFF; color: #002639; font-family: Veranda Helvetica Neue, Helvetica, sans-serif; padding-top: 50px" class="{% block body_classes %}{% endblock body_classes %}">
+  <!-- Header -->
+  <table align="center" cellpadding="0" cellspacing="0" style="max-width: 700px; width: 95%; padding: 0; ">
+    <tr>
+{#      <td>#}
+{#        <img style="max-width: 178px" class="logo-img" src="{{ site.scheme }}://{{ site.domain }}{% static 'images/90549494-8f51-4872-83b7-7629822dee1d.png' %}" alt="Carelon Wellbeing">#}
+{#      </td>#}
+      <td align="right">
+        <img style="max-width: 201px" src="{{ site.scheme }}://{{ site.domain }}{% static 'images/1c5d4e77-2680-491a-84bb-f016f87da2ab.png' %}" alt="Always secure & confidential">
+      </td>
+    </tr>
+  </table>
+  <!-- Image -->
+  <table align="center" cellpadding="0" cellspacing="0" style="max-width: 700px; width: 95%; padding: 0; padding-top: 50px; padding-bottom: 50px;">
+    <tr>
+      <td>
+        <table class="header" align="center" cellpadding="0" cellspacing="0" style="max-width: 700px; width: 95%; padding: 0; padding-top: 50px;">
+          <tr style="max-width: 700px;">
+            <td style="max-width: 700px;">
+              <img width="100%" height="auto" src="{{ site.scheme }}://{{ site.domain }}{% static 'images/6de82e95-6936-48c6-9195-e77f4a49d438.png' %}" alt="">
+            </td>
+          </tr>
+        </table>
+
+        <table align="center" cellpadding="0" cellspacing="0" style="max-width: 650px; padding-top: 25px; width: 90%; padding-bottom: 70px; display: block;">
+          <tr>
+            <td>
+              <table align="left" style="width: 80%">
+                <tr>
+                  <td>
+                    {% block content %}
+                      <p>Coming soon!</p>
+                    {% endblock content %}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <td height="100px">
+        {% block footer %}
+        {% endblock footer %}
+      </td>
+    </tr>
+  </table>
+
+  </body>
+  </html>
+{% endblock html %}
+{% endautoescape %}

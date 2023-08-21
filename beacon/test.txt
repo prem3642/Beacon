@@ -1,0 +1,25 @@
+curl 'https://stage-rest-api.mdlive.com/api/v2/patients/642199816/appointments'
+ -H 'authority: stage-rest-api.mdlive.com'
+ -H 'accept: application/json, text/plain, */*'
+ -H 'authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOjY0MjE5OTgxNiwidXNlcm5hbWUiOiJNRExJVkUtYjkxN2Q4ZDUtNTZhZi00MmE0LTkwNzktMTM5MjgwZjhlMzhhIiwiYXBpX2NyZWRfaWQiOjUyMywib3UiOiJTTVciLCJleHAiOjE1ODE1MTEwNzJ9.QeZc0TGSVbNV9s5B58T4qtK9ihcTsnhDU6AuJr7XdiA'
+ -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
+ -H 'content-type: application/json'
+ -H 'origin: https://qa.beacon.fueled.engineering'
+ -H 'sec-fetch-site: cross-site'
+ -H 'sec-fetch-mode: cors'
+ -H 'referer: https://qa.beacon.fueled.engineering/register'
+ -H 'accept-encoding: gzip, deflate, br'
+ -H 'accept-language: en-US,en;q=0.9'
+  --data-binary '{
+     "appointment":{
+       "provider_id":642189546,
+       "appointment_method":"phone",
+       "consent_user_initials":"MJ",
+       "customer_call_in_number":"+12345678906",
+       "provider_type_id":26,
+       "start_time":1581624900,
+       "state_abbrev":"FL",
+       "survey_answer":"Alcohol or Drug use",
+       "chief_complaint":"Alcohol or Drug use",
+       "agrees_to_informed_consent":true,
+       "agrees_to_privacy_agreement":true}}' --compressed
